@@ -6,7 +6,7 @@ DATE:    2014-04-19
 
 This package includes NewNet's source code.
 
-These guidelines have been written with the assumption that you know how
+These instructions have been written with the assumption that you know how
 to compile new mods for UT.  Any referenced file not within this package
 can be found in the server package (NewNetv0.9-server).
 
