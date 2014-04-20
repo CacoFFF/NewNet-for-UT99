@@ -76,7 +76,7 @@ Integrating NewNet into an existing configuration:
         NetServerMaxTickRate=65
         LanServerMaxTickRate=65
     
-3)  Start your server!
+4)  Start your server!
     
     a)  If you're running it on a Windows server, run Server.bat or
         Server-NoMapVote.bat.
@@ -127,7 +127,7 @@ Integrating NewNet into a fresh server configuration:
 	
 	d)  If you're running a linux server, remove all references to TF2.
 
-3)  Start your server!
+4)  Start your server!
     
     a)  If you're running it on a Windows server, run Server.bat or
         Server-NoMapVote.bat.
