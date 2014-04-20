@@ -1,0 +1,223 @@
+- All hitscan weapons (including pulse secondary) register as if zero ping, serverside
+- Dynamic hitsounds like UT2004's UTComp
+- Translocator doesn't switch to previous weapon when triggering both fire/altfire
+- ThrowWeapon throws weapon when moving forward
+- ThrowWeapon velocity can be set by the server admin
+- Hitscan (shock beams, sniper, etc.) pass through ducked player's heads instead of stopping midair
+- Warmup mode fixed to match actual gameplay physics (jump height, self damage, momentum, etc.) and removed annoying "You are ready!" text
+- Projectiles hopefully match the server better (less duds)
+- You keep half your enforcer/mini ammo if you toss enforcer while you have mini and vice versa
+- If you have duel enforcers, you can toss one (with 30 ammo) and keep the other instead of having to toss both (which actually used to result in one of the duel enforcers disappearing)
+- Minigun originally did random damage, from 9 to 15 per hit; people complained so it was reduced to 9 damage per hit
+- Translocator feels like 0 ping
+- Type "hitsounds 0" to turn hitsounds off or "hitsounds 1" to turn them on
+- People were complaining about their weapon firing after switching weapons because they were sometimes not letting go of their fire button before switching, so a delay was incorporated into the weapon switch sequence that will temporarily disable firing when switching weapons; the default is 200 milliseconds but players can set their own delay by typing "switchdelay 300" or whatever in console
+- Projectiles and shock combos improved
+- Checking for shots fired on the client between ticks on the server has been removed for minigun and sniper so that they register "normally"
+- For quick testing, the headshot box size can be changed by an admin in-game; current default is 100%
+- Comboing other person's shock ball works as if 0 ping
+- InstaGib altfire fixed
+- Piston fixed
+- Hidden weapon after feigning death fixed
+- Fixed shots not registering after first shot when holding down fire
+- Added team hitsounds; type "teamhitsounds 0" or "teamhitsounds 1" in console to turn them off or on
+- Should now be able to hear hitsounds from across the map or in a different zone
+- Fixed spectator hitsounds to match the hitsounds of whoever spec is viewing
+- Position/direction of shots fired now match exactly what the shooter saw except when going up lifts (need newnet lifts)
+- Dodging of all straight-flying projectiles is now much more accurate
+- Fixed telefragging when dodging into each other
+- No more crashing when recording demos
+- Hitboxes seem to be more accurate
+- Even smoother movement for players with 150+ ping
+- Jump pads that feel like zero ping
+- Fixed telepunts
+- Fixed the real/fake translocator positions/velocities so they always match regardless of how/who shot it
+- Fixed a serious bug where firing shock primary too soon after firing shock secondary was causing the shock primary to never fire on the server!!  This is the likely culprit for 99.99% of the combo registration issues!
+- Fixed the lag associated with boosting oneself
+- Spawning issues fixed
+- Reduced the lag associated with getting knocked around by shock beams, rockets, etc.
+- Fixed piston launching?
+- Fixed FWS so that the actual switching is delayed rather than the firing; can also now see the pending weapon glow in the hud
+- Fixed SwitchWeapon and SwitchToBestWeapon binds
+- Fixed clientside weapon sometimes switching twice with high ping
+- Made it incredibly easy to make complex arena-style gametypes like telegib
+- Players now have a few hitsounds to choose from by entering hitsounds # or teamhitsounds # into their console where # is an integer, 0 to 3
+- Fixed major bug with rockets where on the server it was shooting in the direction you were aiming when you started loading, but on your screen it shot like you expected; this was likely the cause of all the rocket duds
+- Fixed biorifle not shooting sometimes (I think?); the issue was also most likely the reason for bio duds
+- Fixed weapon switching so that players get a fast weapon switch but the sound, animation, and hud (glow) work as they would expect
+- Translocator can now be the first weapon when spawning; just put it above enforcer in weapons list
+- Fixed weapons sometimes firing immediately after spawning
+- Mini's gotten pretty useless again so the damage per bullet has been bumped up from 9 to 10
+- Added the zzFireSwitchDelay parameter to the weapon switch sequence so that there will be a slight, exact delay prior to the actual switch when firing a weapon right before switching
+- Fixed not being able to switch to a weapon immediately after touching it
+- Fixed not being able to fire or switch weapon immediately after spawning
+- Weapon switches are now 99% ideal as far as I can tell: 1) independent of ping 2) consistent across the board and 3) you can "cancel" a pending weapon switch by re-choosing your current weapon (with no added delay), which should work for the most part with any combination of getweapon, switchweapon, switchtobestweapon, and/or next/prevweapon
+- Fixed the immediate firing and direction of weapons when holding down fire as weapons are switched
+- Fixed the number of rockets firing on the client sometimes not matching the number of rockets firing on the server
+- Fixed the 99.9% of the movement jittering when client/server are resyncing once and for all
+- Added messages for any time you're getting packet loss; "HidePL" in console to toggle the messages
+- Serverside default hitsound setting; search for DefaultHitSound in ut.ini; it should work for players who are using the current version for the first time
+- Portals now feel like zero ping and the direction players face when coming out of portals is now "correct" (as most map makers intend); right now VisibleTeleporters (the portals on Terra, Gothic, DiamondSword, etc.) take a few seconds to get replicated to each client and the method in doing so is really inefficient but it will do for now
+- Fixed switching to another weapon (e.g., from enforcer to translocator) immediately after you spawn (for real though lol)
+- Translocator should be fixed; it should no longer (or at least very rarely) get out of sync with the server; telefragging should feel like it does in practice mode; and killing translocators should always work
+- Hopefully fixed projectile (rockets, etc.) hit registration once and for all; had to disable a few things in the past few versions to isolate the crashing but they are now re-enabled with slightly different hit registration algorithms
+- Added MaxPktLPS (packets lost per second) to hopefully smooth out the warping of players with < 1% loss
+- Added the HUD weapon glow for players that have high detail turned off
+- Maybe fixed weapon switching issues once and for all?  The remaining issue seems to be a result of the inventory refreshing when picking up a new weapon, which for some reason empties it for a split second, long enough for a weapon switch to fail if attempted during this short time.
+- Changed where shock beams explode if a high pinger hits someone going around a corner so it doesn't look like they're shooting through the wall
+- Removed odd jumping when spawning
+- Spent a few hours trying to fix demos; server demos don't crash the server but of course 1st person view doesn't work right (it's always been like this apparently); and client demos for whatever reason the client's fake (newnet) projectiles/shots won't fire in the right direction, regardless of the fact that demo playback does in fact have the proper view rotation data; after trying everything I could think of to fix either client/server demos, it looks like the best (ironically the easiest) solution is to rewrite most (or maybe even all) of the demo system; Epic did a TERRIBLE job with this; I don't know what they were thinking but the demo system is apparently still really bad in UT3+
+- Fixed invisible body blocking when someone is dead but not yet spawned and their corpse now no longer has to go into the floor
+- Removed gibs/flying body parts on the server; but now they need to be re-added for specs; and special stuff like heads flying off when headshotted need to be removed from server, but this should be enough right now to test whether or not this fixes the remaining bounced shots
+- Fixed shooting 2+ guns at once
+- Fixed DOM control points in warmup
+- Sniper headshots verified to be working correctly (someone requested that this be looked into)
+- Fixed minigun accuracy when holding fire then altfire
+- Prolonged the amount of time the movement netcode is reverted to default for players experiencing packet loss
+- Raised the minimum packets lost per second (before reverting to default movement) from 8 to 50
+- Added a minimum positional error to maybe reduce server load?
+- Not really part of this mod lol but I fixed the gun pointing down on spawn in LMS; also fixed warmup in LMS
+- Fixed (or at least improved) force fire for shockrifle
+- Pulse beam seemed to be overpowered so its damage has been reduced slightly
+- Fixed the clock when going into overtime or joining a server late (inefficient replication but it'll work for now)
+- Suiciding now explodes the body (derka derka!)
+- Enabled gibs from spectator's POV (what a hack lol)
+- Fixed trying to throw a weapon you can't throw
+- Rewrote entire projectile hit registration system :|
+- Added a hack/workaround to hopefully avoid the bug in the engine that causes servers to crash when teleporting too often; see more info here: http://www.oldunreal.com/cgi-bin/yabb2/YaBB.pl?num=1358350172
+- Comboing trans fixed
+- Shooting right after spawning might be fixed?
+- Movement as smooth as possible now
+- Fixed telefragging teammates when translocating lol
+- Fixed shock combo direction
+- Someone said translocator target's light was staying on when the target was killed (disrupted) but I ran a few different tests for 20+ minutes and it seems to be working fine o_O
+- Decreased maximum ping hit detection from 1000 to 500 (if your ping is over 500 for some reason, shots may not register correctly)
+- Skimmed through codebase and optimized whatever I could to hopefully reduce server load significantly
+- Made newnet compatible with assault but it needs testing
+- Fixed telefragging teammates via portals
+- Maybe fixed occasional warping when translocator on server gets out of sync with the clients?  Might also fix the crashes once and for all?  The known ones anyway...
+- Maybe fixed shock balls colliding?
+- Fixed combo damage/hitsounds
+- Reduced sniper rate of fire (*very* slightly); headshots now inflict 135 damage while body shots inflict 60
+- Reduced shock primary rate of fire (*very* slightly)
+- Reduced enforcer rate of fire (*very* slightly)
+- Fixed the bug that allowed players to have over 150 armor if grabbing armor after belt
+- FWS is mostly off, and made the weapon switch even slower for 1) sniper/shock to translocator and 2) translocator to sniper/shock/flak
+- Fixed kamikazee rockets/goo
+- Fixed double enforcers
+- Sped up switch from trans to shock just a tad
+- Fixed telepunting with piston
+- Fixed piston launching
+- Removed MaxPktLPS (packets lost per second) because it didn't help warping players at all and caused issues with players who get only a tiny bit of PL
+- Put enforcer rate of fire back to normal but lowered damage from 25 to 21 per hit (can't do an even 20 without heavy modification because the engine multiplies the specified damage amount by 1.5 for hardcore mode, then rounds that number down)
+- Removed the double view shake from enforcer (only shakes once now, like it's supposed to)
+- Fixed double enforcer altfire
+- Mini primary damage lowered from 15 per hit to 10 per hit; I had been saying 10 up until now when it was actually 15 as I forgot to account for the 1.5 multiplier; mini secondary still does 15 per hit (might need to be lowered to 13?)
+- Pulse secondary damage reduced very slightly
+- Fixed weapons not loading/firing when holding fire as soon as you pick them up (ugly hack to fix it -_-)
+- Fixed invisible bio primary
+- Decreased the lifespan of flak shards
+- Trying something different for sniper now; rate of fire back to normal; still 135 for headshots; still 60 for bodyshots; and a slightly reduced headshot HEIGHT: originally 38%, now 34%
+- Shock primary rate of fire is also back to normal, but damage is decreased from 60 to 45; it is simply way too overpowered at 60 with the normal rate; shock dom, however, still does 60 damage per hit since the only thing that matters there is how many times you hit someone as opposed to having to balance it out with other weapons in nwCTF/TDM/1v1
+- Sniper arena sniper is back to normal rate of fire and normal damage
+- Added the demostart command
+- Increased default telefragging radius slightly
+- Decreased the positional error thresholds for gametypes without translocator (should reduce the dodge bugs and slight "jitters" people have been having)
+- Reduced translocation "jitters" significantly (should only occur now if you're moving really fast in the middle of translocating a lot)
+- Tried everything I could think of to duplicate the "trans cancelling" issue mintek described but it always seems to work fine for me
+- Fixed weapons sometimes switching multiple times with high ping
+- Fixed switching to translocator immediately after spawning
+- Fixed the "switchweapon 1" bind so that translocator always comes out first
+- Fixed autoswitching when holding fire (loading rockets or whatever) while picking up a weapon for people who use autoswitching
+- Fixed autoswitching issues for high pingers (would switch back to previous weapon)
+- Fixed throwing a pending weapon (the weapon you're switching to before the switch has finished)
+- Fixed splash damage not triggering movers
+- Removed pulse plasma spheres' health transfer
+- Decreased pulse secondary damage some more
+- Some people had mentioned flak firing twice in a row but I compared it to reg and it works exactly the same; it occurs when you press fire soon after firing
+- Flak shard distance is back to the original; but now, the further the shards travel the less damage they do
+- Maybe fixed goo primary damage
+- Spectators now see/hear sprees, multikills, and headshots for whoever they're watching
+- Maybe fixed seeing double when comboing other ball
+- Maybe fixed goo secondary
+- Fixed the pre-translocation glow not showing up (where a player was right before translocating)
+- Fixed bots firing too fast
+- Removed the red/green bs from spec when you press F3 in spec (ShowStats command)
+- Fixed picking up guns with no ammo (very rare)
+- Fixed not being able to pickup another weapon < 200ms after throwing current one
+- Added redeemer replacement mutator: IG rifle with 1 ammo that only gets used if you miss
+- Trying something different for removing gib collision now; hopefully this doesn't result in any extra bounced shots or premature projectile explosions
+- Fixed the issue with weapons sometimes disappearing from the HUD and sometimes not being able to switch to a weapon as soon as you pick it up (related issues); btw, FUCK YOU EPIC for not allowing replication to be changed in subclasses... if epic allowed this to begin with, I wouldn't have had to resort to ridiculous hacks to make 0 ping weapon switch possible
+- Fixed the clock/HUD not appearing when ctf is loaded for the first time; MODOSUtils was overriding the HUD so now Pure's HUD is forced as long as "ctfhud" is in the hud's original hud name
+- Fixed inaccurate overtime clock for specs (cheap inefficient hack -_-)
+- Fixed shock balls not disappearing when colliding at an angle
+- Fixed dodge bug
+- Drastically reduced any hitches in movement
+- Drastically improved the smoothness of portals (dodging through them, etc.)
+- Maybe fixed rockets sometimes autofiring right after switching to them
+- Dodging through portals is now smooth as butter, but still need to fix the direction when dodging sideways (always been a bug with UT)
+- Maybe finished fixing weapon switching for high pingers
+- Smoother tele (through doors, etc.)
+- No more issues with walking along the edge of a ledge or something
+- Hopefully fixed bio secondary not loading until after shooting primary
+- Fixed rockets autofiring after firing a spiral, etc.
+- Fixed flak autofiring when double clicking
+- Fixed shock rifle autofiring when double clicking (which sometimes caused clicks to get really out of sync with the actual beams)
+- Nerfed pulse very slightly
+- Significantly reduced server load (should hopefully drastically eliminate crashes?)
+- IG rifle and sniper rifle now have the same hit registration algorithm
+- Slightly improved the weapon traces so that they better match up with what the shooter saw (hopefully, needs testing)
+- Patched a few possible exploits (hopefully won't have adverse effects on hit registration)
+- Fixed kill messages sometimes showing wrong weapon
+- Fixed race conditions regarding enemy's invisible projectiles/telefragging/etc. after dying
+- Zero ping lifts (without recompiling every map!) are 90% complete
+- Fixed spawns for maps with little to no zoning; it turns out the spawning algorithm depends on portals to function properly, so when I replaced all the portals with newnet (0 ping) portals and destroyed the originals, you ended up spawning in the same spot almost every time on certain maps; fixed this by removing the collision from the portals instead of removing them completely
+- Fixed boosters that kill velocity (like the ones on CTF-Coret-3on3)
+- Fixed SWJumpPad and maybe FurryKicker; the SWJumpPad actually extended the Teleporter (portals) which is why they were replaced with newnet portals, but now I only replace portals of specific c1ass names (Teleporter and VisibleTeleporter); now when a player hits an SWJumpPad the movement reverts back to the original netcode for a short period of time to allow the SWJumpPad to work correctly (so high pingers will experience some screen tearing as they would have before newnet); I did the same for the atypical kickers, which should work for FurryKickers (though untested) and I attempted to add the FurryKicker's ToggleTime to the amount of time newnet movement is temporarily disabled
+- Hopefully made it harder for high pingers to unsuspectingly telefrag you
+- Server can now force the hitsound/teamhitsound, but advanced users can force their own on top of that if they want by setting bDisableForceHitSounds=True in their User.ini
+- Hopefully reduced bandwidth requirements while also smoothing out the appearance of other players' movements
+- Fixed newnet movement not getting activated when connecting mid map
+- Hopefully fixed boosting
+- The "switchweapon 1" bind always pulls out translocator first
+- Eliminated as many accessed none warnings as reasonably possible (nods @Feralidragon)
+- Hopefully fixed the warpy spawns for other players
+- Hopefully fixed the "skating" players (I believe it was caused by lowering the NetUpdateFrequency, so I raised it back to normal; might also help with the delayed inventory/pulling out gun upon spawning)
+- Fixed projectiles sometimes boosting in the wrong direction
+- Fixed rocket launcher and bio rifle getting stuck loading on the server when the client isn't actually holding fire
+- Hopefully fixed not spawning with translocator
+- Hopefully fixed no weapon selected after feigning death
+- Hopefully fixed no weapon selected after throwing multiple weapons
+- May have fixed the issue where the server temporarily overrides (lags behind) the client's weapon switch; it seems to work fine but for it to work ideally, the entire weapon switching system will have to be recreated (thanks Epic! -_-)
+- Fixed laggy non-zeroping lifts (hopefully no more issues)
+- Hopefully fixed the crazy boosts that happen after landing on someone's head
+- Fixed projectiles not damaging the second player/actor/whatever that they hit via splash damage
+- Fixed rockets not firing when reaching 0 ammo while loading
+- Thoroughly reread all of the code surrounding the spawns, ran a few tests, and found nothing that would indicate spawns have been affected in any way; also suicided over 100 times in both newnet and reg with 2 UTs open with 1 (enemy) player in a few different positions to see if the spawning player spawns closer more frequently and it seems to be the same; if anyone can reliably show me a spawn that happens in newnet that would never happen in reg, I'd be glad to fix it; but until then, it appears to work exactly the same
+- Created newnet ComboGib
+- Fixed remaining issues with ComboGib (Except maybe grappling hook? It should be at least a tiny bit better.  If not, I guess I'll have to recreate it within newnet.)
+- Removed 0 ping weapon switch; too many issues with replication :(  There may be some bugs hidden away with the old ping-dependent switching + newnet, but overall it seems to be more consistent.
+- Mayyyyybe improved utstats accuracy?  If not, I know what I need to do now.
+- Re-added crouching headshots
+- Added newnet double jump ability; toggleable by server admin *nods* @SAM; to enable it just set bDoubleJump=true; it should work better than the original double jump mod for ut99; set a really high maxJumps for the lulz!!
+- Fixed being able to shoot *too* soon upon spawning
+- Fixed entering portals at the same time
+- Fixed translocator effect that would happen whenever you didn't actually translocate (e.g., into a teammate or something)
+- Fixed dodging sideways through portals; not sure what Epic was thinking with their original code there o_O
+- Added "MinDodgeClickTime" configurable via User.ini to combat autododges; default is 0.05 (50 milliseconds); this should fix autododges by people who somehow trigger a direction twice in a row too quickly, maybe even caused by some electrical interference with the keyboard input; to change it in-game enter something like "setmindodgeclicktime 0.1" into your console
+- PlayerReplicationInfo.Ping should be more accurate; this should hopefully help with projectile prediction
+- Fixed sniper rifle's bullets landing significantly above the crosshair; for some reason Epic coded the original sniper such that the bullets land further above the crosshair the more up or down you're aiming when you fire; the trace algorithm now matches the shock rifle
+- Set the default MinDodgeClickTime to 0 (disabled) since there are a handful of people who were unable to dodge at all
+- Fixed bots using weapons improperly; certain projectiles may need some work but at least the bots are shooting instead of just standing there lol
+- Carcasses on the ground can now be destroyed by most weapons while still allowing you to walk through them (non-blocking); weapons that still need this ability: pulse, ripper, flak primary, and holding piston's secondary
+- Fixed most of the major issues with clientside demos; demo playback should now match almost exactly what the client saw; it may only work properly with demos played back using uDemo.u (demo manager); pretty ridiculous workarounds were required to fix it since client demos weren't designed to handle actors specific to the client while hiding certain server actors, but hey that's a 15 year old engine for ya
+- Added automatic demorec at countdown
+- Fixed not being able to switch weapons while holding fire
+- Re-added pending weapon glow to the HUD, although it's now delayed depending on ping
+- Fixed rockets not firing when reaching 0 ammo while loading
+- Fixed being able to use boots 4 times
+- Fixed double jump killing other mutators (mapvote, etc.)
+- Fixed combogib rifle self damage
+- Fixed multi ctf hud
+- Fixed an issue with portals
+- Added "enable carcasses" option; type "shootdead" in console to toggle it; default is off

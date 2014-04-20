@@ -1,0 +1,66 @@
+class NN_PlasmaSphereOwnerHidden extends ST_PlasmaSphere;
+
+var bool bAlreadyHidden;
+
+simulated function Tick(float DeltaTime) {
+	if (Level.NetMode == NM_Client && bNetOwner && !bAlreadyHidden) {
+		LightType = LT_None;
+		SetCollisionSize(0, 0);
+		bAlreadyHidden = True;
+		Destroy();
+	}
+}
+
+simulated function HitWall (vector HitNormal, actor Wall)
+{
+	if ( Role == ROLE_Authority )
+	{
+		if ( (Mover(Wall) != None) && Mover(Wall).bDamageTriggered )
+			Wall.TakeDamage( Damage, instigator, Location, MomentumTransfer * Normal(Velocity), '');
+
+		MakeNoise(1.0);
+	}
+	Explode(Location + ExploWallOut * HitNormal, HitNormal);
+	if ( (ExplosionDecal != None) && (Level.NetMode != NM_DedicatedServer) && !bNetOwner )
+		Spawn(ExplosionDecal,self,,Location, rotator(HitNormal));
+}
+
+function Explode(vector HitLocation, vector HitNormal)
+{
+	if ( !bExplosionEffect )
+	{
+		PlayOwnedSound(EffectSound1,,7.0);
+		bExplosionEffect = true;
+		if ( !Level.bHighDetailMode || bHitPawn || Level.bDropDetail )
+		{
+			if ( bExploded )
+			{
+				Destroy();
+				return;
+			}
+			else
+				DrawScale = 0.45;
+		}
+		else
+			DrawScale = 0.65;
+
+	    LightType = LT_Steady;
+		LightRadius = 5;
+		SetCollision(false,false,false);
+		LifeSpan = 0.5;
+		Texture = ExpType;
+		DrawType = DT_SpriteAnimOnce;
+		Style = STY_Translucent;
+		if ( Region.Zone.bMoveProjectiles && (Region.Zone.ZoneVelocity != vect(0,0,0)) )
+		{
+			bBounce = true;
+			Velocity = Region.Zone.ZoneVelocity;
+		}
+		else
+			SetPhysics(PHYS_None);
+	}
+}
+
+defaultproperties {
+	bOwnerNoSee=True
+}

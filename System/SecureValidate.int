@@ -1,0 +1,9 @@
+[Public]
+Object=(Name=SecureValidate.SVUdpServerUplink,Class=Class,MetaClass=Engine.Actor)
+Preferences=(Caption="Secure Validate Master Server Uplink",Parent="Networking",Class=SecureValidate.SVUdpServerUplink,Immediate=True)
+
+[ServerUplink]
+ClassCaption="Secure Validate Master Server Uplink"
+
+[ServerQuery]
+ClassCaption="Secure Validate Game Server Query"

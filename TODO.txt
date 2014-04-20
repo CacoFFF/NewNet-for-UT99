@@ -1,0 +1,56 @@
+*** PLAYER ***
+- Prespawns?
+- Separate package for config or figure out how to retrieve previous version?
+- Allow players to choose team/enemy player models
+- Quicker HUD updates
+- Bot hitsounds
+- Verify feigndeath collisionheight
+- Option to reverse Fire/AltFire
+
+*** CLIENT DEMOS ***
+- Hammer
+- Goo
+- Grenades
+- Translocator
+- Explosion sounds
+- Automatically stop recording when redjacked for more than a couple of seconds to prevent crashing
+
+*** SPEC ***
+- Separate package for config or figure out how to retrieve previous version?
+- Force SmartCTF
+- Findamp command
+- Powerup timers
+- Maybe improve/replace spec messages
+- Incorporate XC_Spec
+
+*** WEAPONS ***
+- Fix silent piston
+- Hammer AltFire (deflection)
+- Newnet redeemer lol
+- Weapon sometimes becomes invisible when thrown
+- Should be able to catch thrown weapons midair
+- Better compensation for curving projectiles (grenades, goo, and flak secondary)
+
+*** HUD ***
+- Custom death messages
+- Colored messages/names
+- Option to make player names not show up with crosshair
+- Custom crosshairs for each weapon
+- HUD editing
+- More characters
+- Make options available via some menu
+- High res skins
+
+*** LIFTS ***
+- Fix lifts getting stuck???
+- Fix lifts not returning when encroached (should only take a few minutes)
+- Fix lifts not crushing players (should only take a few minutes)
+- Fix lifts making players appear to be falling when the lift is up (this is going to be tough...)
+- Fix movers not triggering kill zones (for maps like Pressure)
+
+*** STATS ***
+- Finish fixing utstats
+- Better stats system
+
+*** MODS ***
+- Incorporate LeagueAS?
