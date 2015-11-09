@@ -322,6 +322,9 @@ replication
 		xxNN_Fire, xxNN_AltFire, xxNN_ReleaseFire, xxNN_ReleaseAltFire, xxNN_MoveTTarget, xxServerPreTeleport;
 }
 
+//XC_Engine interface
+native(1719) final function bool IsInPackageMap( optional string PkgName, optional bool bServerPackagesOnly);
+
 /* More crash fix bs */
 simulated function bool xxGarbageLocation(actor Other)
 {
@@ -5972,9 +5975,6 @@ local string pkg, SkinItem, MeshName;
 	
 //	Log("SSE: Begin :"@SkinNo@SkinName@DefaultSkinName);
 	
-	if (Default.zzMyPacks == "")
-		Default.zzMyPacks = Caps(SkinActor.ConsoleCommand("get engine.gameengine serverpackages"));
-
 	if ( (SkinActor.Level.NetMode != NM_Standalone)	&& (SkinActor.Level.NetMode != NM_Client) && (DefaultSkinName != "") )
 	{
 		// make sure that an illegal skin package is not used
@@ -5985,7 +5985,7 @@ local string pkg, SkinItem, MeshName;
 			MeshName = SkinActor.GetItemName(string(SkinActor.Default.Mesh));
 		SkinItem = SkinActor.GetItemName(SkinName);
 		pkg = Left(SkinName, Len(SkinName) - Len(SkinItem) - 1);
-		bProscribed = !xxValidSP(SkinName, MeshName);
+		bProscribed = !xxValidSP(SkinName, MeshName, SkinActor);
 		if ( bProscribed )
 			log("Attempted to use illegal skin from package "$pkg$" for "$Meshname);
 	}
@@ -6018,17 +6018,32 @@ static function string xxGetClass(string zzClassname)
 	return left(zzcls,zzP);
 }
 
-static function bool xxValidSP(string zzSkinName, string zzMeshName)
+static function bool xxValidSP(string zzSkinName, string zzMeshName, optional Actor SkinActor)
 {
-	local int zzP;
+	local int XC_Version;
 	local string zzPackName;
 
 	zzPackName = xxGetClass(zzSkinName);
-		
-	zzP  = Instr(Default.zzMyPacks, Chr(34)$zzPackName$Chr(34));
-	if (zzP == -1 || zzPackName ~= "BOTPACK" || zzPackName ~= "UNREALI" || zzPackName ~= "UNREALSHARE")
+
+	//Attempt to use XC_Engine natives
+	if ( SkinActor != none && SkinActor.Role == ROLE_Authority )
+	{
+		XC_Version = int(SkinActor.ConsoleCommand("get ini:engine.engine.gameengine XC_Version"));
+		if ( XC_Version >= 13 ) 
+		{
+			if ( !IsInPackageMap( zzPackName, true) )
+				return false;
+			return (Left(zzPackName, Len(zzMeshName)) ~= zzMeshName && !(Right(zzSkinName,2) ~= "t_"));
+		}
+	}
+	//Extra pass before potentially crash code
+	if ( zzPackName ~= "BOTPACK" || zzPackName ~= "UNREALI" || zzPackName ~= "UNREALSHARE")
     	return false;
-		
+	if (Default.zzMyPacks == "")
+		Default.zzMyPacks = Caps(SkinActor.ConsoleCommand("get ini:engine.engine.gameengine serverpackages")); //Can still crash a server
+
+	if ( Instr(Default.zzMyPacks, Chr(34)$zzPackName$Chr(34)) == -1 )
+		return false;
   	return (Left(zzPackName, Len(zzMeshName)) ~= zzMeshName && !(Right(zzSkinName,2) ~= "t_"));
 }
 

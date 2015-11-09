@@ -96,16 +96,26 @@ replication
 		zzbWarmupPlayers;
 }
 
+//XC_Engine interface
+native(1718) final function bool AddToPackageMap( optional string PkgName);
+
 function PreBeginPlay()
 {
 	local string AbsTime;
 	local GameInfo GI;
 	local string n;
+	local int XC_Version;
 	
 	zzDMP = DeathMatchPlus(Level.Game);
 	if (zzDMP == None)
 		return;
-	
+
+	XC_Version = int(ConsoleCommand("get ini:engine.engine.gameengine XC_Version"));
+	if ( XC_Version >= 11 )
+	{
+		AddToPackageMap(); //I am now a ServerPackage
+		AddToPackageMap("NewNetWeapons"$ThisVer); //Weapons are now ServerPackage as well
+	}
 	Spawn(class'NN_SpawnNotify');
 	ReplaceTeleporters();
 	//DisableMovers();
